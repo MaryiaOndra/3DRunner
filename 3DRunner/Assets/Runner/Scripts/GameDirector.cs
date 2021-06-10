@@ -13,27 +13,13 @@ namespace Runner
         {
             base.Start();
 
-            SetCurrentScreen<GameScreen>().ShowAndStartGame();
+            SetCurrentScreen<MenuScreen>().ShowScreen();
         }
         protected override void OnScreenExit(Type _screenType, string _exitCode)
         {
-            if (_screenType == typeof(GameScreen))
+            if (_screenType == typeof(MenuScreen))
             {
-                if (_exitCode == GameScreen.Exit_Settings)
-                    SetCurrentScreen<SettingsScreen>().ShowScreen();
-                else if (_exitCode == GameScreen.Exit_Result)
-                    SetCurrentScreen<ResultScreen>().ShowScreen();
-            }
-            else if (_screenType == typeof(SettingsScreen))
-            {
-                if (_exitCode == SettingsScreen.Exit_Back)
-                    ToBackScreen();
-            }
-            else if (_screenType == typeof(ResultScreen))
-            {
-                if (_exitCode == ResultScreen.Exit_Menu)
-                    SceneManager.LoadScene(ScenesIds.Menu);
-                else if (_exitCode == ResultScreen.Exit_Replay)
+                if (_exitCode == MenuScreen.Exit_Game)
                     SetCurrentScreen<GameScreen>().ShowAndStartGame();
             }
         }
