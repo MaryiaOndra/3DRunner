@@ -9,13 +9,17 @@ namespace Runner
 {
     public class GameScreen : BaseScreen
     {
+        [SerializeField]
+        TilesMover tilesMover;
+
         public const string Exit_Settings = "Exit_Settings";
         public const string Exit_Result = "Exit_Result";
 
         public void ShowAndStartGame() 
         {
             ShowScreen();
-            GameInfo.Instance.Score = 10;
+
+            tilesMover.IsMove = true;
         }
 
         public void OnSettingsPressed()
