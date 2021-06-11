@@ -10,7 +10,6 @@ namespace Runner
 {
     public class ResultScreen : BaseScreen
     {
-        public const string Exit_Menu = "Exit_Menu";
         public const string Exit_Replay = "Exit_Replay";
 
         [SerializeField]
@@ -25,11 +24,6 @@ namespace Runner
         public void OnRestartPressed() 
         {
             Exit(Exit_Replay);    
-        }
-
-        public void OnMenuPressed() 
-        {
-            Exit(Exit_Menu);
         }
     }
 }

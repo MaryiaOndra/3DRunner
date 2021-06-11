@@ -12,6 +12,9 @@ namespace Runner
         [SerializeField]
         TilesMover tilesMover;
 
+        [SerializeField]
+        Character character;
+
         public const string Exit_Settings = "Exit_Settings";
         public const string Exit_Result = "Exit_Result";
 
@@ -19,6 +22,8 @@ namespace Runner
         {
             ShowScreen();
 
+            character.LoseAction = OnPlayerLose;
+            character.IsMove = true;
             tilesMover.IsMove = true;
         }
 
@@ -28,8 +33,9 @@ namespace Runner
         }
 
 
-        public void OnGameEndScreen()
+        public void OnPlayerLose()
         {
+            tilesMover.IsMove = false;
             Exit(Exit_Result);
         }
     }
