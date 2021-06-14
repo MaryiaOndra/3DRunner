@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    [SerializeField]
-    Transform[] pointsTrs;
+    static readonly int FL_SPEED = Animator.StringToHash("MoveSpeed");
+    static readonly int BOOL_GROUNDED = Animator.StringToHash("Grounded");
 
     [SerializeField]
+    Transform[] pointsTrs;
+    [SerializeField]
     float moveSpeed;
+    [SerializeField]
+    float jumpForce;
+    [SerializeField]
+    FloorTrigger floorTrigger;
 
     Animator characterAnimator;
     Rigidbody characterRigidbody;
@@ -17,8 +23,21 @@ public class Character : MonoBehaviour
     int targetPointIndex;
     float moveProgress;
     Vector3 startMovePos;
+    bool needJump;
+    bool isRunning;
 
-    public bool IsMove { get; set; }
+
+
+    public bool IsRunning
+    {
+        get => isRunning;
+
+        set
+        {
+            isRunning = value;
+            characterAnimator.SetFloat(FL_SPEED, isRunning ? 1 : 0);
+        }
+    }
     public Action LoseAction { get; set; }
 
     void Awake()
@@ -30,7 +49,7 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        if (IsMove)
+        if (IsRunning)
         {
             int _newIndex = targetPointIndex;
 
@@ -52,6 +71,24 @@ public class Character : MonoBehaviour
                 moveProgress = Mathf.Clamp(moveProgress + moveSpeed * Time.deltaTime, 0f, 1f);
                 transform.position = Vector3.Lerp(startMovePos, pointsTrs[targetPointIndex].position, moveProgress);
             }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Space) && characterRigidbody.velocity.y == 0)
+                {
+                    needJump = true;
+                }
+            }
+        }
+
+        characterAnimator.SetBool(BOOL_GROUNDED, floorTrigger.IsGrounded);
+    }
+
+    private void FixedUpdate()
+    {
+        if (needJump)
+        {
+            needJump = false;
+            characterRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
     }
 
@@ -61,9 +98,9 @@ public class Character : MonoBehaviour
         startMovePos = transform.position;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnObstacleTriggered()
     {
-        IsMove = false;
+        IsRunning = false;
         LoseAction.Invoke();
     }
 }

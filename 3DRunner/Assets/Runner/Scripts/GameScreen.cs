@@ -23,7 +23,7 @@ namespace Runner
             ShowScreen();
 
             character.LoseAction = OnPlayerLose;
-            character.IsMove = true;
+            character.IsRunning = true;
             tilesMover.IsMove = true;
         }
 
