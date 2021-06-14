@@ -15,6 +15,9 @@ namespace Runner
         [SerializeField]
         Character character;
 
+        [SerializeField]
+        TouchToCharacterAdapter adapter;
+
         public const string Exit_Settings = "Exit_Settings";
         public const string Exit_Result = "Exit_Result";
 
@@ -22,6 +25,7 @@ namespace Runner
         {
             ShowScreen();
 
+            adapter.RequestDirectionAction = character.OnRequestMove;
             character.LoseAction = OnPlayerLose;
             character.IsRunning = true;
             tilesMover.IsMove = true;
