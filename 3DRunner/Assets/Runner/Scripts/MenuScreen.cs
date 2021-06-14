@@ -14,12 +14,12 @@ namespace Runner
         public const string Exit_Game = "Exit_Game";
 
         [SerializeField]
-        TextMeshProUGUI scoreText;
+        ScoresPanel scoreText;
 
         public override void ShowScreen()
         {
             base.ShowScreen();
-            scoreText.text = GameInfo.Instance.Score.ToString();
+            scoreText.SetScores(GameInfo.Instance.BestScores);
         }
 
         public void OnSettingsPressed() 

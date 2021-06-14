@@ -13,12 +13,12 @@ namespace Runner
         public const string Exit_Replay = "Exit_Replay";
 
         [SerializeField]
-        TextMeshProUGUI scoreText;
+        TMP_Text scoreText;
 
         public override void ShowScreen()
         {
             base.ShowScreen();
-            scoreText.text = GameInfo.Instance.Score.ToString();
+            scoreText.text = GameInfo.Instance.InGameScores.ToString();
         }
 
         public void OnRestartPressed() 

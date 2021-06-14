@@ -10,6 +10,9 @@ namespace Runner
     public class GameScreen : BaseScreen
     {
         [SerializeField]
+        ScoresPanel scoresPanel;
+
+        [SerializeField]
         TilesMover tilesMover;
 
         [SerializeField]
@@ -31,6 +34,11 @@ namespace Runner
             tilesMover.IsMove = true;
         }
 
+        void Update()
+        {
+            scoresPanel.SetScores(GameInfo.Instance.CalculateScores(tilesMover.MoveDistance));
+        }
+
         public void OnSettingsPressed()
         {
             Exit(Exit_Settings);
@@ -40,6 +48,8 @@ namespace Runner
         public void OnPlayerLose()
         {
             tilesMover.IsMove = false;
+            GameInfo.Instance.RegisterResult(tilesMover.MoveDistance);
+
             Exit(Exit_Result);
         }
     }

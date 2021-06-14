@@ -12,11 +12,15 @@ public class TilesMover : MonoBehaviour
     float speed;
 
     public bool IsMove { get; set;  }
+    public float MoveDistance { get; private set; }
 
     void Update()
     {
         if (IsMove)
         {
+            float _deltaPos = -speed * Time.deltaTime;
+            MoveDistance += Mathf.Abs(_deltaPos);
+
             for (int i = 0; i < tiles.Count; i++)
             {
                 var _tile = tiles[i];
