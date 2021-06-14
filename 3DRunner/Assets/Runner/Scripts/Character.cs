@@ -26,8 +26,6 @@ public class Character : MonoBehaviour
     bool needJump;
     bool isRunning;
 
-
-
     public bool IsRunning
     {
         get => isRunning;
@@ -51,32 +49,10 @@ public class Character : MonoBehaviour
     {
         if (IsRunning)
         {
-            int _newIndex = targetPointIndex;
-
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                _newIndex--;
-                StartMove();
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                _newIndex++;
-                StartMove();
-            }
-
-            targetPointIndex = Mathf.Clamp(_newIndex, 0, pointsTrs.Length - 1);
-
             if (moveProgress < 1f)
             {
                 moveProgress = Mathf.Clamp(moveProgress + moveSpeed * Time.deltaTime, 0f, 1f);
                 transform.position = Vector3.Lerp(startMovePos, pointsTrs[targetPointIndex].position, moveProgress);
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Space) && characterRigidbody.velocity.y == 0)
-                {
-                    needJump = true;
-                }
             }
         }
 
@@ -92,6 +68,33 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void OnRequestMove(CharacterMoveDirection _direction) 
+    {
+        if (_direction == CharacterMoveDirection.UP)
+        {
+            if (floorTrigger.IsGrounded)
+            {
+                needJump = true;
+            }
+        }
+        else
+        {
+            int _newIndex = targetPointIndex;
+            if (_direction == CharacterMoveDirection.LEFT)
+            {
+                _newIndex--;
+            }
+            else if (_direction == CharacterMoveDirection.RIGHT)
+            {
+                _newIndex++;
+            }
+
+            targetPointIndex = Mathf.Clamp(_newIndex, 0, pointsTrs.Length - 1);
+            
+            StartMove();
+        }
+    }
+
     void StartMove()
     {
         moveProgress = 0;
@@ -103,4 +106,11 @@ public class Character : MonoBehaviour
         IsRunning = false;
         LoseAction.Invoke();
     }
+}
+
+public enum CharacterMoveDirection 
+{
+    UP,
+    LEFT,
+    RIGHT
 }
