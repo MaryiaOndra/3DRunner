@@ -868,8 +868,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointsTrs: []
-  moveSpeed: 10
-  jumpForce: 10
+  moveSpeed: 15
+  jumpForce: 7
   floorTrigger: {fileID: 7073391311628387159}
 --- !u!1 &6770616110244814324
 GameObject:
